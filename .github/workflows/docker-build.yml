@@ -1,11 +1,11 @@
-name: Build and push Docker image
+name: Build and push Docker image to GHCR on push
 
 on:
   push:
   
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: wizarrrr/wizarr
+  IMAGE_NAME: ryphier/wizarr
 
 jobs:
   build-and-push-image:
@@ -23,7 +23,11 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH.PAT }}
+        run: |
+          docker login --username ryphier --password ${{ secrets.GH.PAT }} ${{ env.REGISTRY }}
+          docker build . --tag ghcr.io/ryphier/wizarr:latest
+          docker push . ghcr.io/ryphier/wizarr:latest
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
