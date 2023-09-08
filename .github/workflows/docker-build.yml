@@ -25,7 +25,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH.PAT }}
         run: |
-          docker login --username ryphier --password ${{ secrets.GH.PAT }} ${{ env.REGISTRY }}
+          docker login --username ryphier --password ${{ secrets.GH.PAT }} ghcr.io
           docker build . --tag ghcr.io/ryphier/wizarr:latest
           docker push . ghcr.io/ryphier/wizarr:latest
 
